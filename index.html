@@ -11,7 +11,7 @@
 
   <style>
     body {
-      background: radial-gradient(circle at center, #260309 0%, #120003 100%);
+      background: radial-gradient(circle at center, #2e040c 0%, #170004 70%, #0d0002 100%);
       font-family: 'Montserrat', sans-serif;
     }
 
@@ -22,19 +22,24 @@
 
     /* Royal gold gradient text */
     .text-gold-gradient {
-      background: linear-gradient(135deg, #FFF3BF 0%, #E6C068 50%, #C49735 100%);
+      background: linear-gradient(135deg, #FFF9D2 0%, #F5D37E 35%, #D4A038 70%, #FBE698 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px rgba(212, 160, 56, 0.25));
     }
 
     /* Soft glowing card border */
     .gold-border {
       border: 3.5px solid #dfb052;
-      box-shadow: 0 0 25px rgba(223, 176, 82, 0.35), inset 0 0 20px rgba(223, 176, 82, 0.15);
+      box-shadow: 0 0 35px rgba(223, 176, 82, 0.4), 0 20px 60px rgba(0, 0, 0, 0.9), inset 0 0 22px rgba(223, 176, 82, 0.2);
     }
 
     .inner-border {
-      border: 1px dashed rgba(223, 176, 82, 0.45);
+      border: 1px dashed rgba(223, 176, 82, 0.5);
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.03) 0%, transparent 70%),
+        radial-gradient(circle, rgba(223, 176, 82, 0.08) 1px, transparent 1px);
+      background-size: 100% 100%, 24px 24px;
     }
 
     /* Glowing decorative fairy lights around card edges */
@@ -61,6 +66,68 @@
       100% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 10px 4px rgba(255, 235, 140, 0.95); }
     }
 
+    /* Gentle floating golden sparkles */
+    .sparkle {
+      position: absolute;
+      border-radius: 50%;
+      background: #ffd56b;
+      opacity: 0.6;
+      filter: blur(0.5px);
+      animation: floatSparkle 6s infinite ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes floatSparkle {
+      0% { transform: translateY(0) scale(0.8); opacity: 0.2; }
+      50% { transform: translateY(-16px) scale(1.2); opacity: 0.8; }
+      100% { transform: translateY(-32px) scale(0.7); opacity: 0; }
+    }
+
+    /* Interactive Cradle Swinging & Pendulum Physics */
+    .cradle-swing-wrapper {
+      transform-origin: 50% 8px; /* Swing from the top suspension canopy bar */
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: pan-y;
+      transition: transform 0.15s ease-out;
+    }
+
+    /* Ambient continuous gentle breeze swing */
+    .cradle-ambient {
+      animation: ambientSway 4.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientSway {
+      0% { transform: rotate(-1.5deg); }
+      100% { transform: rotate(1.5deg); }
+    }
+
+    /* Triggered rocking animation on touch / click */
+    .cradle-rocking {
+      animation: realisticCradleRock 3.6s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+    }
+
+    @keyframes realisticCradleRock {
+      0% { transform: rotate(0deg); }
+      12% { transform: rotate(-11deg); }
+      26% { transform: rotate(9deg); }
+      40% { transform: rotate(-6.5deg); }
+      54% { transform: rotate(4.2deg); }
+      68% { transform: rotate(-2.4deg); }
+      82% { transform: rotate(1.2deg); }
+      92% { transform: rotate(-0.5deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    /* Subtle pulsing touch hint badge */
+    .touch-hint-pill {
+      animation: pulseHint 2.4s ease-in-out infinite;
+    }
+    @keyframes pulseHint {
+      0%, 100% { opacity: 0.85; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.04); }
+    }
+
     @media print {
       body {
         background: none !important;
@@ -75,7 +142,7 @@
         border: 2px solid #b38226 !important;
         margin: 0 auto;
       }
-      .fairy-lights-border {
+      .fairy-lights-border, .sparkle {
         display: none !important;
       }
     }
@@ -83,46 +150,31 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-start p-3 sm:p-6 text-amber-50">
 
-  <!-- Interactive Controls Bar (Top) -->
-  <div class="no-print w-full max-w-[530px] flex flex-col sm:flex-row items-center justify-between gap-3 mb-5">
-    <!-- Language Switcher Tabs -->
+  <!-- Interactive Language Bar (Top) -->
+  <div class="no-print w-full max-w-[530px] flex items-center justify-center mb-5">
     <div class="inline-flex bg-black/40 border border-amber-500/40 rounded-full p-1 shadow-md">
-      <button onclick="setLang('en')" id="btn-en" class="lang-tab px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all bg-amber-500 text-stone-950 shadow">
+      <button onclick="setLang('en')" id="btn-en" class="lang-tab px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider transition-all bg-amber-500 text-stone-950 shadow">
         English
       </button>
-      <button onclick="setLang('kn')" id="btn-kn" class="lang-tab px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all text-amber-200 hover:text-white">
+      <button onclick="setLang('kn')" id="btn-kn" class="lang-tab px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider transition-all text-amber-200 hover:text-white">
         ಕನ್ನಡ
       </button>
-      <button onclick="setLang('both')" id="btn-both" class="lang-tab px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all text-amber-200 hover:text-white">
-        Both / ಎರಡೂ
-      </button>
     </div>
-
-    <!-- Actions (Print / Copy) -->
-    <div class="flex items-center gap-2">
-      <button onclick="window.print()" class="px-3.5 py-1.5 text-xs font-medium tracking-wide rounded-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 transition-all flex items-center gap-1.5">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-        Print
-      </button>
-      <button onclick="copyDetails()" id="copyBtn" class="px-3.5 py-1.5 text-xs font-medium tracking-wide rounded-full bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 transition-all flex items-center gap-1.5">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-        Copy Text
-      </button>
-    </div>
-  </div>
-
-  <!-- Toast Notification -->
-  <div id="toast" class="no-print fixed top-6 bg-gradient-to-r from-amber-900 to-amber-950 border border-amber-400 text-amber-100 px-5 py-2 rounded-full shadow-2xl text-xs sm:text-sm font-medium transition-opacity duration-300 opacity-0 pointer-events-none z-50">
-    Invitation text copied to clipboard!
   </div>
 
   <!-- MAIN INVITATION CARD (Strictly Ceremonial - No Ads Inside) -->
   <div class="invitation-container relative w-full max-w-[530px] bg-[#4a0813] gold-border rounded-2xl shadow-[0_22px_60px_rgba(0,0,0,0.85)] p-2.5 sm:p-3 overflow-hidden">
 
+    <!-- Floating Sparkle Particles -->
+    <div class="sparkle w-1.5 h-1.5 top-12 left-10" style="animation-delay: 0.2s;"></div>
+    <div class="sparkle w-2 h-2 top-36 right-12" style="animation-delay: 1.5s;"></div>
+    <div class="sparkle w-1.5 h-1.5 bottom-40 left-8" style="animation-delay: 2.8s;"></div>
+    <div class="sparkle w-2 h-2 bottom-16 right-14" style="animation-delay: 3.9s;"></div>
+
     <!-- Fairy Lights around all four edges -->
     <div class="fairy-lights-border pointer-events-none select-none">
       <!-- Top Row Lights -->
-      <div class="absolute top-2 left-6 right-6 flex justify-between items-center z-10">
+      <div class="absolute top-2 left-6 right-6 flex justify-between items-center z-20">
         <span class="fairy-light"></span>
         <span class="fairy-light"></span>
         <span class="fairy-light"></span>
@@ -133,7 +185,7 @@
         <span class="fairy-light"></span>
       </div>
       <!-- Bottom Row Lights -->
-      <div class="absolute bottom-2 left-6 right-6 flex justify-between items-center z-10">
+      <div class="absolute bottom-2 left-6 right-6 flex justify-between items-center z-20">
         <span class="fairy-light"></span>
         <span class="fairy-light"></span>
         <span class="fairy-light"></span>
@@ -144,7 +196,7 @@
         <span class="fairy-light"></span>
       </div>
       <!-- Left Column Lights -->
-      <div class="absolute top-8 bottom-8 left-2 flex flex-col justify-between items-center z-10">
+      <div class="absolute top-8 bottom-8 left-2 flex flex-col justify-between items-center z-20">
         <span class="fairy-light"></span>
         <span class="fairy-light"></span>
         <span class="fairy-light"></span>
@@ -156,7 +208,7 @@
         <span class="fairy-light"></span>
       </div>
       <!-- Right Column Lights -->
-      <div class="absolute top-8 bottom-8 right-2 flex flex-col justify-between items-center z-10">
+      <div class="absolute top-8 bottom-8 right-2 flex flex-col justify-between items-center z-20">
         <span class="fairy-light"></span>
         <span class="fairy-light"></span>
         <span class="fairy-light"></span>
@@ -170,39 +222,159 @@
     </div>
 
     <!-- Inner Festive Border Container -->
-    <div class="inner-border rounded-xl p-5 sm:p-8 flex flex-col items-center text-center relative bg-gradient-to-b from-[#560d19] via-[#460711] to-[#38040d]">
+    <div class="inner-border rounded-xl pt-10 pb-5 px-4 sm:pt-11 sm:pb-8 sm:px-8 flex flex-col items-center text-center relative bg-gradient-to-b from-[#5a0c1a] via-[#460711] to-[#34040c]">
 
-      <!-- Ornate SVG Floral Corners -->
-      <svg class="absolute top-2 left-2 w-9 h-9 text-[#e5b869]" viewBox="0 0 100 100" fill="currentColor">
-        <path d="M10,10 Q50,15 50,50 Q15,50 10,10 Z M5,5 L25,5 Q15,15 15,25 L5,25 Z"/>
-        <circle cx="28" cy="28" r="6"/>
-        <path d="M12,12 Q35,12 35,35" stroke="currentColor" stroke-width="3" fill="none"/>
+      <!-- Traditional Mango Leaf & Marigold Toran Garland across top -->
+      <div class="absolute top-0 left-0 right-0 h-10 pointer-events-none select-none z-10 overflow-hidden">
+        <svg class="w-full h-full" viewBox="0 0 500 50" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="marigoldOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff9f1c"/>
+              <stop offset="60%" stop-color="#ff7b00"/>
+              <stop offset="100%" stop-color="#d95d00"/>
+            </linearGradient>
+            <linearGradient id="marigoldYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fff275"/>
+              <stop offset="60%" stop-color="#ffb703"/>
+              <stop offset="100%" stop-color="#fb8500"/>
+            </linearGradient>
+            <linearGradient id="mangoLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#55a630"/>
+              <stop offset="70%" stop-color="#2b7a0b"/>
+              <stop offset="100%" stop-color="#194d05"/>
+            </linearGradient>
+          </defs>
+          <!-- Golden connecting cord -->
+          <path d="M 0 5 Q 62 26 125 7 Q 187 26 250 7 Q 312 26 375 7 Q 437 26 500 5" fill="none" stroke="#e5b869" stroke-width="2.2" stroke-dasharray="3,1.5"/>
+          <!-- Mango Leaves hanging -->
+          <path d="M 62 20 Q 58 38 62 48 Q 66 38 62 20 Z" fill="url(#mangoLeaf)"/>
+          <path d="M 187 20 Q 183 38 187 48 Q 191 38 187 20 Z" fill="url(#mangoLeaf)"/>
+          <path d="M 312 20 Q 308 38 312 48 Q 316 38 312 20 Z" fill="url(#mangoLeaf)"/>
+          <path d="M 437 20 Q 433 38 437 48 Q 441 38 437 20 Z" fill="url(#mangoLeaf)"/>
+          <!-- Marigold Flowers -->
+          <!-- Flower 1 -->
+          <circle cx="25" cy="11" r="7" fill="url(#marigoldOrange)"/>
+          <circle cx="25" cy="11" r="4.2" fill="url(#marigoldYellow)"/>
+          <circle cx="25" cy="11" r="1.8" fill="#e85d04"/>
+          <!-- Flower 2 -->
+          <circle cx="62.5" cy="22" r="8" fill="url(#marigoldYellow)"/>
+          <circle cx="62.5" cy="22" r="5" fill="url(#marigoldOrange)"/>
+          <circle cx="62.5" cy="22" r="2" fill="#d95d00"/>
+          <!-- Flower 3 -->
+          <circle cx="125" cy="10" r="7" fill="url(#marigoldOrange)"/>
+          <circle cx="125" cy="10" r="4.2" fill="url(#marigoldYellow)"/>
+          <!-- Flower 4 (Center Left) -->
+          <circle cx="187.5" cy="22" r="8" fill="url(#marigoldYellow)"/>
+          <circle cx="187.5" cy="22" r="5" fill="url(#marigoldOrange)"/>
+          <circle cx="187.5" cy="22" r="2" fill="#d95d00"/>
+          <!-- Center Flower -->
+          <circle cx="250" cy="11" r="8.5" fill="url(#marigoldOrange)"/>
+          <circle cx="250" cy="11" r="5.2" fill="url(#marigoldYellow)"/>
+          <circle cx="250" cy="11" r="2.2" fill="#d95d00"/>
+          <!-- Flower 6 (Center Right) -->
+          <circle cx="312.5" cy="22" r="8" fill="url(#marigoldYellow)"/>
+          <circle cx="312.5" cy="22" r="5" fill="url(#marigoldOrange)"/>
+          <circle cx="312.5" cy="22" r="2" fill="#d95d00"/>
+          <!-- Flower 7 -->
+          <circle cx="375" cy="10" r="7" fill="url(#marigoldOrange)"/>
+          <circle cx="375" cy="10" r="4.2" fill="url(#marigoldYellow)"/>
+          <!-- Flower 8 -->
+          <circle cx="437.5" cy="22" r="8" fill="url(#marigoldYellow)"/>
+          <circle cx="437.5" cy="22" r="5" fill="url(#marigoldOrange)"/>
+          <!-- Flower 9 -->
+          <circle cx="475" cy="11" r="7" fill="url(#marigoldOrange)"/>
+          <circle cx="475" cy="11" r="4.2" fill="url(#marigoldYellow)"/>
+        </svg>
+      </div>
+
+      <!-- Ornate Indian Floral Corner Mandalas -->
+      <svg class="absolute top-1.5 left-1.5 w-11 h-11 text-[#e5b869]" viewBox="0 0 100 100" fill="currentColor">
+        <path d="M12,12 Q45,15 45,45 Q15,45 12,12 Z M6,6 L32,6 Q18,18 18,32 L6,32 Z"/>
+        <!-- Lotus petals flourish -->
+        <circle cx="30" cy="30" r="6"/>
+        <path d="M30 18 Q35 24 30 30 Q25 24 30 18 Z" fill="#ffd166"/>
+        <path d="M18 30 Q24 35 30 30 Q24 25 18 30 Z" fill="#ffd166"/>
+        <path d="M14,14 Q40,14 40,40" stroke="currentColor" stroke-width="2.5" fill="none"/>
+        <circle cx="42" cy="14" r="2.5" fill="#ffeaa7"/>
+        <circle cx="14" cy="42" r="2.5" fill="#ffeaa7"/>
       </svg>
-      <svg class="absolute top-2 right-2 w-9 h-9 text-[#e5b869] rotate-90" viewBox="0 0 100 100" fill="currentColor">
-        <path d="M10,10 Q50,15 50,50 Q15,50 10,10 Z M5,5 L25,5 Q15,15 15,25 L5,25 Z"/>
-        <circle cx="28" cy="28" r="6"/>
-        <path d="M12,12 Q35,12 35,35" stroke="currentColor" stroke-width="3" fill="none"/>
+      <svg class="absolute top-1.5 right-1.5 w-11 h-11 text-[#e5b869] rotate-90" viewBox="0 0 100 100" fill="currentColor">
+        <path d="M12,12 Q45,15 45,45 Q15,45 12,12 Z M6,6 L32,6 Q18,18 18,32 L6,32 Z"/>
+        <circle cx="30" cy="30" r="6"/>
+        <path d="M30 18 Q35 24 30 30 Q25 24 30 18 Z" fill="#ffd166"/>
+        <path d="M18 30 Q24 35 30 30 Q24 25 18 30 Z" fill="#ffd166"/>
+        <path d="M14,14 Q40,14 40,40" stroke="currentColor" stroke-width="2.5" fill="none"/>
+        <circle cx="42" cy="14" r="2.5" fill="#ffeaa7"/>
+        <circle cx="14" cy="42" r="2.5" fill="#ffeaa7"/>
       </svg>
-      <svg class="absolute bottom-2 left-2 w-9 h-9 text-[#e5b869] -rotate-90" viewBox="0 0 100 100" fill="currentColor">
-        <path d="M10,10 Q50,15 50,50 Q15,50 10,10 Z M5,5 L25,5 Q15,15 15,25 L5,25 Z"/>
-        <circle cx="28" cy="28" r="6"/>
-        <path d="M12,12 Q35,12 35,35" stroke="currentColor" stroke-width="3" fill="none"/>
+      <svg class="absolute bottom-1.5 left-1.5 w-11 h-11 text-[#e5b869] -rotate-90" viewBox="0 0 100 100" fill="currentColor">
+        <path d="M12,12 Q45,15 45,45 Q15,45 12,12 Z M6,6 L32,6 Q18,18 18,32 L6,32 Z"/>
+        <circle cx="30" cy="30" r="6"/>
+        <path d="M30 18 Q35 24 30 30 Q25 24 30 18 Z" fill="#ffd166"/>
+        <path d="M18 30 Q24 35 30 30 Q24 25 18 30 Z" fill="#ffd166"/>
+        <path d="M14,14 Q40,14 40,40" stroke="currentColor" stroke-width="2.5" fill="none"/>
+        <circle cx="42" cy="14" r="2.5" fill="#ffeaa7"/>
+        <circle cx="14" cy="42" r="2.5" fill="#ffeaa7"/>
       </svg>
-      <svg class="absolute bottom-2 right-2 w-9 h-9 text-[#e5b869] rotate-180" viewBox="0 0 100 100" fill="currentColor">
-        <path d="M10,10 Q50,15 50,50 Q15,50 10,10 Z M5,5 L25,5 Q15,15 15,25 L5,25 Z"/>
-        <circle cx="28" cy="28" r="6"/>
-        <path d="M12,12 Q35,12 35,35" stroke="currentColor" stroke-width="3" fill="none"/>
+      <svg class="absolute bottom-1.5 right-1.5 w-11 h-11 text-[#e5b869] rotate-180" viewBox="0 0 100 100" fill="currentColor">
+        <path d="M12,12 Q45,15 45,45 Q15,45 12,12 Z M6,6 L32,6 Q18,18 18,32 L6,32 Z"/>
+        <circle cx="30" cy="30" r="6"/>
+        <path d="M30 18 Q35 24 30 30 Q25 24 30 18 Z" fill="#ffd166"/>
+        <path d="M18 30 Q24 35 30 30 Q24 25 18 30 Z" fill="#ffd166"/>
+        <path d="M14,14 Q40,14 40,40" stroke="currentColor" stroke-width="2.5" fill="none"/>
+        <circle cx="42" cy="14" r="2.5" fill="#ffeaa7"/>
+        <circle cx="14" cy="42" r="2.5" fill="#ffeaa7"/>
       </svg>
 
       <!-- 1. Mangala Shloka / Mantra -->
-      <div class="mt-2 mb-3">
-        <div class="lang-en font-cinzel text-xs sm:text-sm tracking-[0.26em] text-[#ebd09e] font-bold">
-          || SHRI GANESHAY NAMAH ||
+      <div class="mt-1 mb-2.5">
+        <div class="flex items-center justify-center gap-2 sm:gap-3">
+          <!-- Lord Ganesha Golden Artistic SVG Icon -->
+          <svg class="w-6 h-6 sm:w-7 sm:h-7 text-[#f5d37e] drop-shadow-[0_0_6px_rgba(245,211,126,0.6)] flex-shrink-0" viewBox="0 0 64 64" fill="currentColor">
+            <!-- Crown / Mukut -->
+            <path d="M32 4 L36 14 L28 14 Z M30 14 L34 14 L33 18 L31 18 Z" fill="#ffd166"/>
+            <!-- Tilak / Trishul -->
+            <path d="M31 19 L33 19 L33 24 L31 24 Z M29 20 Q31 23 31 26 L30 26 Q30 22 28 21 Z M35 20 Q33 23 33 26 L34 26 Q34 22 36 21 Z" fill="#e63946"/>
+            <!-- Ganesha Ears & Head -->
+            <path d="M26 18 C18 16 12 22 15 29 C17 33 22 33 25 32 C23 26 25 21 27 18 Z" fill="#f5d37e"/>
+            <path d="M38 18 C46 16 52 22 49 29 C47 33 42 33 39 32 C41 26 39 21 37 18 Z" fill="#f5d37e"/>
+            <!-- Forehead & Curved Trunk -->
+            <path d="M27 18 C37 18 37 18 37 18 C38 24 38 29 36 34 C34 39 32 43 33 47 C34 50 38 50 39 47 C40 44 38 43 36 43 C38 41 42 42 41 48 C40 53 32 54 30 48 C29 42 32 37 34 32 C35 28 35 23 27 22 Z" fill="#f5d37e"/>
+            <!-- Modak / Sweets in Left Hand -->
+            <circle cx="45" cy="38" r="3" fill="#ffb703"/>
+            <!-- Small Mouse / Mushika at bottom right accent -->
+            <ellipse cx="44" cy="56" rx="3.5" ry="2" fill="#d4a038"/>
+            <circle cx="47" cy="55" r="1.5" fill="#d4a038"/>
+          </svg>
+
+          <div>
+            <div class="lang-en font-cinzel text-xs sm:text-sm tracking-[0.25em] text-[#ebd09e] font-bold">
+              || SHRI GANESHAY NAMAH ||
+            </div>
+            <div class="lang-kn font-kannada-serif text-sm sm:text-base tracking-widest text-[#ebd09e] font-bold">
+              || ಶ್ರೀ ಗಣೇಶಾಯ ನಮಃ ||
+            </div>
+          </div>
+
+          <!-- Mirrored Ganesha Icon on other side for symmetry -->
+          <svg class="w-6 h-6 sm:w-7 sm:h-7 text-[#f5d37e] drop-shadow-[0_0_6px_rgba(245,211,126,0.6)] flex-shrink-0 -scale-x-100" viewBox="0 0 64 64" fill="currentColor">
+            <path d="M32 4 L36 14 L28 14 Z M30 14 L34 14 L33 18 L31 18 Z" fill="#ffd166"/>
+            <path d="M31 19 L33 19 L33 24 L31 24 Z M29 20 Q31 23 31 26 L30 26 Q30 22 28 21 Z M35 20 Q33 23 33 26 L34 26 Q34 22 36 21 Z" fill="#e63946"/>
+            <path d="M26 18 C18 16 12 22 15 29 C17 33 22 33 25 32 C23 26 25 21 27 18 Z" fill="#f5d37e"/>
+            <path d="M38 18 C46 16 52 22 49 29 C47 33 42 33 39 32 C41 26 39 21 37 18 Z" fill="#f5d37e"/>
+            <path d="M27 18 C37 18 37 18 37 18 C38 24 38 29 36 34 C34 39 32 43 33 47 C34 50 38 50 39 47 C40 44 38 43 36 43 C38 41 42 42 41 48 C40 53 32 54 30 48 C29 42 32 37 34 32 C35 28 35 23 27 22 Z" fill="#f5d37e"/>
+            <circle cx="45" cy="38" r="3" fill="#ffb703"/>
+          </svg>
         </div>
-        <div class="lang-kn font-kannada-serif text-sm sm:text-base tracking-widest text-[#ebd09e] font-bold">
-          || ಶ್ರೀ ಗಣೇಶಾಯ ನಮಃ ||
+
+        <!-- Floral Lotus Center Divider -->
+        <div class="flex items-center justify-center gap-2 mt-1.5">
+          <div class="w-14 sm:w-20 h-[1px] bg-gradient-to-r from-transparent to-[#dfb052]"></div>
+          <svg class="w-4 h-4 text-[#dfb052]" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3 C12 7 9 10 9 13 C9 15 10.5 17 12 17 C13.5 17 15 15 15 13 C15 10 12 3 12 3 Z M7 14 C5.5 14 4 15 4 16.5 C4 18.5 7 20 12 20 C17 20 20 18.5 20 16.5 C20 15 18.5 14 17 14 C15.5 16 13.8 16.8 12 16.8 C10.2 16.8 8.5 16 7 14 Z"/>
+          </svg>
+          <div class="w-14 sm:w-20 h-[1px] bg-gradient-to-l from-transparent to-[#dfb052]"></div>
         </div>
-        <div class="w-24 h-[1.5px] bg-gradient-to-r from-transparent via-[#dfb052] to-transparent mx-auto mt-2"></div>
       </div>
 
       <!-- 2. Main Title -->
@@ -225,37 +397,300 @@
         </p>
       </div>
 
-      <!-- 4. Clean Baby Portrait Image (No hands, no surrounding emojis) -->
-      <div class="flex justify-center mb-4">
-        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-[#dfb052] p-1 bg-gradient-to-tr from-[#6b1220] to-[#2d050c] shadow-[0_0_16px_rgba(223,176,82,0.45)]">
-          <svg class="w-full h-full rounded-full" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="60" cy="60" r="58" fill="#580e1b"/>
-            <!-- Baby Face -->
-            <ellipse cx="60" cy="68" rx="30" ry="28" fill="#fed6b0"/>
-            <!-- Baby hair tuft & headband -->
-            <path d="M54 44 C57 37 63 37 66 44" stroke="#4a2e16" stroke-width="3" stroke-linecap="round"/>
-            <path d="M35 58 Q60 50 85 58" stroke="#ff8da1" stroke-width="4.5" stroke-linecap="round"/>
-            <!-- Flower on headband -->
-            <circle cx="43" cy="54" r="5.5" fill="#f43f5e"/>
-            <circle cx="43" cy="54" r="2.5" fill="#fef08a"/>
-            <!-- Eyes & Sparkles -->
-            <ellipse cx="50" cy="67" rx="3.5" ry="4.5" fill="#2d1a0e"/>
-            <circle cx="48.5" cy="65" r="1.5" fill="#ffffff"/>
-            <ellipse cx="70" cy="67" rx="3.5" ry="4.5" fill="#2d1a0e"/>
-            <circle cx="68.5" cy="65" r="1.5" fill="#ffffff"/>
-            <!-- Rosy Cheeks -->
-            <ellipse cx="44" cy="74" rx="4.5" ry="3" fill="#fb7185" opacity="0.6"/>
-            <ellipse cx="76" cy="74" rx="4.5" ry="3" fill="#fb7185" opacity="0.6"/>
-            <!-- Smiling Mouth -->
-            <path d="M55 77 Q60 83 65 77" stroke="#9f1239" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-            <!-- Traditional Bindi -->
-            <circle cx="60" cy="58" r="1.8" fill="#881337"/>
-          </svg>
+      <!-- 4. Interactive Baby Daughter in Ornate Traditional Indian Cradle (Thottilu) -->
+      <div class="relative flex flex-col justify-center items-center mb-2 w-full max-w-[320px] sm:max-w-[350px]">
+        <!-- Moving Cradle Element -->
+        <div id="cradleContainer" class="cradle-swing-wrapper cradle-ambient w-full flex justify-center items-center py-1" title="Touch or click to rock the cradle">
+          <svg id="cradleSvg" class="w-full h-auto drop-shadow-[0_12px_24px_rgba(0,0,0,0.75)] pointer-events-none" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Royal Gold Shading Gradients -->
+            <linearGradient id="richGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fff8db"/>
+              <stop offset="30%" stop-color="#fbd375"/>
+              <stop offset="65%" stop-color="#c98a1f"/>
+              <stop offset="100%" stop-color="#ffd978"/>
+            </linearGradient>
+            <linearGradient id="antiqueGold" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#f6d365"/>
+              <stop offset="50%" stop-color="#b87a15"/>
+              <stop offset="100%" stop-color="#7a4e04"/>
+            </linearGradient>
+            <!-- Silk Pink & Peach Bedding Gradients -->
+            <linearGradient id="silkDrape" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffa5be"/>
+              <stop offset="45%" stop-color="#f43f5e"/>
+              <stop offset="100%" stop-color="#9f1239"/>
+            </linearGradient>
+            <linearGradient id="peachPillow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="50%" stop-color="#fff1e6"/>
+              <stop offset="100%" stop-color="#fecdd3"/>
+            </linearGradient>
+            <linearGradient id="lotusPink" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffb3c6"/>
+              <stop offset="60%" stop-color="#fb7185"/>
+              <stop offset="100%" stop-color="#be123c"/>
+            </linearGradient>
+            <!-- Flower Gradients -->
+            <radialGradient id="marigoldOrange" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffd166"/>
+              <stop offset="60%" stop-color="#fb8500"/>
+              <stop offset="100%" stop-color="#d00000"/>
+            </radialGradient>
+            <radialGradient id="marigoldYellow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fffde7"/>
+              <stop offset="60%" stop-color="#ffb703"/>
+              <stop offset="100%" stop-color="#ea580c"/>
+            </radialGradient>
+            <linearGradient id="mangoLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#70e000"/>
+              <stop offset="70%" stop-color="#38b000"/>
+              <stop offset="100%" stop-color="#007200"/>
+            </linearGradient>
+          </defs>
+
+          <!-- 1. ORNATE CANOPY TOP BAR & CARVED FINIALS -->
+          <rect x="55" y="8" width="210" height="8" rx="4" fill="url(#richGold)"/>
+          <path d="M 60 12 Q 160 5 260 12" stroke="#7a4e04" stroke-width="1.2" fill="none"/>
+          
+          <!-- Top Center Lotus Kalasha Motif -->
+          <ellipse cx="160" cy="8" rx="8" ry="4" fill="url(#richGold)"/>
+          <path d="M 160 1 L 163 7 L 157 7 Z" fill="#ffd166"/>
+          <!-- Top Center Floral Crown -->
+          <circle cx="160" cy="12" r="5" fill="url(#marigoldOrange)"/>
+          <circle cx="160" cy="12" r="2.5" fill="#fffde7"/>
+          
+          <!-- Left and Right Top Lotus Finials -->
+          <circle cx="62" cy="12" r="4.5" fill="url(#lotusPink)"/>
+          <circle cx="258" cy="12" r="4.5" fill="url(#lotusPink)"/>
+
+          <!-- 2. SUSPENSION BRASS CHAINS INTERTWINED WITH JASMINE (MALLIGE) & MARIGOLD STRINGS -->
+          <!-- Left Chain Pair -->
+          <line x1="78" y1="16" x2="52" y2="114" stroke="url(#antiqueGold)" stroke-width="2.8" stroke-dasharray="5,2.5"/>
+          <line x1="92" y1="16" x2="80" y2="114" stroke="url(#antiqueGold)" stroke-width="2.8" stroke-dasharray="5,2.5"/>
+
+          <!-- Jasmine Garland winding Left Chain -->
+          <g>
+            <circle cx="76" cy="28" r="3.2" fill="#fff" stroke="#fef08a" stroke-width="0.8"/>
+            <circle cx="73" cy="42" r="3.2" fill="#fff" stroke="#fef08a" stroke-width="0.8"/>
+            <circle cx="70" cy="56" r="3.5" fill="url(#marigoldOrange)"/>
+            <circle cx="66" cy="70" r="3.2" fill="#fff" stroke="#fef08a" stroke-width="0.8"/>
+            <circle cx="62" cy="84" r="3.2" fill="#fff" stroke="#fef08a" stroke-width="0.8"/>
+            <circle cx="58" cy="98" r="3.5" fill="url(#marigoldYellow)"/>
+          </g>
+
+          <!-- Right Chain Pair -->
+          <line x1="228" y1="16" x2="240" y2="114" stroke="url(#antiqueGold)" stroke-width="2.8" stroke-dasharray="5,2.5"/>
+          <line x1="242" y1="16" x2="268" y2="114" stroke="url(#antiqueGold)" stroke-width="2.8" stroke-dasharray="5,2.5"/>
+
+          <!-- Jasmine Garland winding Right Chain -->
+          <g>
+            <circle cx="244" cy="28" r="3.2" fill="#fff" stroke="#fef08a" stroke-width="0.8"/>
+            <circle cx="247" cy="42" r="3.2" fill="#fff" stroke="#fef08a" stroke-width="0.8"/>
+            <circle cx="250" cy="56" r="3.5" fill="url(#marigoldOrange)"/>
+            <circle cx="254" cy="70" r="3.2" fill="#fff" stroke="#fef08a" stroke-width="0.8"/>
+            <circle cx="258" cy="84" r="3.2" fill="#fff" stroke="#fef08a" stroke-width="0.8"/>
+            <circle cx="262" cy="98" r="3.5" fill="url(#marigoldYellow)"/>
+          </g>
+
+          <!-- Center Suspended Jasmine Floral Tassel with Jhumka -->
+          <line x1="160" y1="16" x2="160" y2="44" stroke="#e5b869" stroke-width="1.8"/>
+          <!-- Little Jasmine Beads -->
+          <circle cx="160" cy="24" r="2.4" fill="#ffffff"/>
+          <circle cx="160" cy="32" r="2.6" fill="#fb8500"/>
+          <circle cx="160" cy="40" r="2.8" fill="#ffffff"/>
+          <!-- Jhumka Base -->
+          <path d="M 154 44 Q 160 40 166 44 L 168 49 Q 160 51 152 49 Z" fill="url(#richGold)"/>
+          <circle cx="155" cy="52" r="1.5" fill="#fde08a"/>
+          <circle cx="160" cy="53" r="1.8" fill="#fde08a"/>
+          <circle cx="165" cy="52" r="1.5" fill="#fde08a"/>
+
+          <!-- 3. CRADLE REAR ARCH & CARVED WOODWORK -->
+          <path d="M 44 120 C 44 72, 276 72, 276 120" stroke="url(#richGold)" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M 52 118 C 52 80, 268 80, 268 118" stroke="#fef08a" stroke-width="1.5" stroke-dasharray="3,3" fill="none"/>
+
+          <!-- 4. SOFT LACE PILLOW & MATTRESS -->
+          <ellipse cx="110" cy="118" rx="34" ry="20" fill="url(#peachPillow)"/>
+          <!-- Lace Ruffle border around pillow -->
+          <path d="M 80 120 Q 95 106 110 106 Q 125 106 142 120" stroke="#fbcfe8" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+          <!-- 5. BABY DAUGHTER (PEACEFULLY SLEEPING WITH HEADBAND, BINDI & TINY HAND) -->
+          <!-- Baby Head -->
+          <circle cx="112" cy="114" r="18" fill="#fed7aa"/>
+          
+          <!-- Soft Hair Curls -->
+          <path d="M 106 97 C 110 92 115 92 118 97" stroke="#3e2723" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 98 103 C 100 98 103 98 105 103" stroke="#3e2723" stroke-width="1.5" stroke-linecap="round"/>
+
+          <!-- Golden & Floral Headband -->
+          <path d="M 97 108 Q 112 102 127 108" stroke="#f43f5e" stroke-width="3" stroke-linecap="round"/>
+          <!-- Headband Flower with pearl center -->
+          <circle cx="101" cy="106" r="4.5" fill="url(#lotusPink)"/>
+          <circle cx="101" cy="106" r="2" fill="#fffde7"/>
+
+          <!-- Auspicious Baby Bindi -->
+          <circle cx="113.5" cy="108" r="1.4" fill="#9f1239"/>
+
+          <!-- Closed Innocent Smiling Eyes -->
+          <path d="M 105 114 Q 109 117.5 111.5 114" stroke="#4a2e16" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M 117 114 Q 119.5 117.5 123.5 114" stroke="#4a2e16" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+          <!-- Rosy Cheeks -->
+          <ellipse cx="102" cy="118" rx="3.2" ry="2" fill="#fb7185" opacity="0.75"/>
+          <ellipse cx="123" cy="118" rx="3.2" ry="2" fill="#fb7185" opacity="0.75"/>
+
+          <!-- Sweet Smile -->
+          <path d="M 111 121 Q 114 125 117 121" stroke="#be123c" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+
+          <!-- Tiny Delicate Hand Resting on Blanket -->
+          <circle cx="140" cy="128" r="5" fill="#fed7aa"/>
+          <circle cx="137" cy="124" r="1.8" fill="#fed7aa"/>
+          <circle cx="140" cy="123" r="1.8" fill="#fed7aa"/>
+          <circle cx="143" cy="124" r="1.8" fill="#fed7aa"/>
+          <!-- Black and Gold Baby Bangle (Karimani / Kadi) -->
+          <path d="M 136 132 Q 140 134 144 132" stroke="#333" stroke-width="2" fill="none"/>
+          <circle cx="140" cy="133.5" r="1" fill="#ffd166"/>
+
+          <!-- Rich Silk Embroidered Blanket (Pink/Red Velvet Tone) -->
+          <path d="M 86 126 Q 146 116 216 128 L 226 150 Q 146 160 76 148 Z" fill="url(#silkDrape)"/>
+          <!-- Golden Zari Border on Blanket -->
+          <path d="M 86 126 Q 146 116 216 128" stroke="url(#richGold)" stroke-width="3" fill="none"/>
+          <!-- Embroidered Motifs on Blanket -->
+          <circle cx="160" cy="136" r="3.2" fill="#fde08a" opacity="0.9"/>
+          <circle cx="185" cy="138" r="2.8" fill="#fde08a" opacity="0.9"/>
+          <circle cx="135" cy="138" r="2.8" fill="#fde08a" opacity="0.9"/>
+
+          <!-- 6. ORNATE FRONT CRADLE BASKET WITH ROYAL FILIGREE & CARVINGS -->
+          <path d="M 36 112 C 32 158, 76 178, 160 178 C 244 178, 288 158, 284 112 C 270 125, 230 134, 160 134 C 90 134, 50 125, 36 112 Z" fill="url(#richGold)"/>
+          <!-- Inner Shadow / Depth -->
+          <path d="M 40 115 C 44 150, 84 174, 160 174 C 236 174, 276 150, 280 115 C 265 125, 226 132, 160 132 C 94 132, 55 125, 40 115 Z" fill="url(#antiqueGold)" opacity="0.5"/>
+          
+          <!-- Traditional Floral Filigree Lattice on Front Basket -->
+          <path d="M 54 128 Q 160 144 266 128" stroke="#7a4e04" stroke-width="2" fill="none"/>
+          <path d="M 68 144 Q 160 162 252 144" stroke="#7a4e04" stroke-width="2" fill="none"/>
+          <path d="M 94 160 Q 160 172 226 160" stroke="#7a4e04" stroke-width="1.8" fill="none"/>
+          
+          <!-- Center Lotus Brass Carving on Cradle Face -->
+          <g transform="translate(160, 154) scale(0.8)">
+            <path d="M 0 -10 C -4 -4, -12 2, -14 8 C -14 14, -8 18, 0 18 C 8 18, 14 14, 14 8 C 12 2, 4 -4, 0 -10 Z" fill="#ffd166"/>
+            <path d="M 0 -10 C -3 -5, -6 0, -6 6 C -6 12, -2 16, 0 17 C 2 16, 6 12, 6 6 C 6 0, 3 -5, 0 -10 Z" fill="#fff8db"/>
+            <circle cx="0" cy="8" r="2.5" fill="#e11d48"/>
+          </g>
+
+          <!-- 7. LAVISH FLORAL GARLANDS (SWAGS) DRAPING ACROSS THE CRADLE BASKET -->
+          <!-- Top Marigold Swag across the cradle rim -->
+          <g>
+            <!-- Mango Leaves peaking out -->
+            <path d="M 68 116 Q 66 126 72 130 Q 74 122 68 116 Z" fill="url(#mangoLeafGrad)"/>
+            <path d="M 108 124 Q 106 136 112 140 Q 114 130 108 124 Z" fill="url(#mangoLeafGrad)"/>
+            <path d="M 160 128 Q 158 140 164 144 Q 166 134 160 128 Z" fill="url(#mangoLeafGrad)"/>
+            <path d="M 212 124 Q 210 136 216 140 Q 218 130 212 124 Z" fill="url(#mangoLeafGrad)"/>
+            <path d="M 252 116 Q 250 126 256 130 Q 258 122 252 116 Z" fill="url(#mangoLeafGrad)"/>
+
+            <!-- Continuous Alternating Marigold & Jasmine Floral Garland -->
+            <circle cx="48" cy="116" r="4.5" fill="url(#marigoldOrange)"/>
+            <circle cx="58" cy="119" r="4" fill="url(#marigoldYellow)"/>
+            <circle cx="68" cy="122" r="3.2" fill="#ffffff" stroke="#fef08a" stroke-width="0.7"/>
+            <circle cx="78" cy="124" r="4.5" fill="url(#marigoldOrange)"/>
+            <circle cx="88" cy="126" r="4" fill="url(#marigoldYellow)"/>
+            <circle cx="98" cy="128" r="3.2" fill="#ffffff" stroke="#fef08a" stroke-width="0.7"/>
+            <circle cx="108" cy="129" r="4.5" fill="url(#marigoldOrange)"/>
+            <circle cx="118" cy="130" r="4" fill="url(#marigoldYellow)"/>
+            <circle cx="128" cy="130" r="3.2" fill="#ffffff" stroke="#fef08a" stroke-width="0.7"/>
+            <!-- Center Grand Marigold & Lotus Medallion -->
+            <circle cx="138" cy="130" r="4.5" fill="url(#marigoldOrange)"/>
+            <circle cx="149" cy="130" r="4" fill="url(#marigoldYellow)"/>
+            <circle cx="160" cy="130" r="6" fill="url(#lotusPink)"/>
+            <circle cx="160" cy="130" r="2.8" fill="#fffde7"/>
+            <circle cx="171" cy="130" r="4" fill="url(#marigoldYellow)"/>
+            <circle cx="182" cy="130" r="4.5" fill="url(#marigoldOrange)"/>
+            <circle cx="192" cy="130" r="3.2" fill="#ffffff" stroke="#fef08a" stroke-width="0.7"/>
+            <circle cx="202" cy="130" r="4" fill="url(#marigoldYellow)"/>
+            <circle cx="212" cy="129" r="4.5" fill="url(#marigoldOrange)"/>
+            <circle cx="222" cy="128" r="3.2" fill="#ffffff" stroke="#fef08a" stroke-width="0.7"/>
+            <circle cx="232" cy="126" r="4" fill="url(#marigoldYellow)"/>
+            <circle cx="242" cy="124" r="4.5" fill="url(#marigoldOrange)"/>
+            <circle cx="252" cy="122" r="3.2" fill="#ffffff" stroke="#fef08a" stroke-width="0.7"/>
+            <circle cx="262" cy="119" r="4" fill="url(#marigoldYellow)"/>
+            <circle cx="272" cy="116" r="4.5" fill="url(#marigoldOrange)"/>
+          </g>
+
+          <!-- 8. HANGING FLORAL TASSELS (LATKANS), LOTUS BUDS & GHUNGROO BELLS BELOW CRADLE -->
+          <!-- Tassel 1 (Far Left) -->
+          <g>
+            <line x1="82" y1="172" x2="82" y2="188" stroke="#e5b869" stroke-width="1.5"/>
+            <circle cx="82" cy="178" r="2.5" fill="#fff"/>
+            <circle cx="82" cy="184" r="3.2" fill="url(#marigoldOrange)"/>
+            <path d="M 82 188 L 85 195 L 79 195 Z" fill="url(#lotusPink)"/>
+            <!-- Ghungroo -->
+            <circle cx="82" cy="198" r="2.5" fill="url(#richGold)"/>
+          </g>
+
+          <!-- Tassel 2 (Mid Left) -->
+          <g>
+            <line x1="120" y1="176" x2="120" y2="198" stroke="#e5b869" stroke-width="1.8"/>
+            <circle cx="120" cy="182" r="2.6" fill="#fff"/>
+            <circle cx="120" cy="189" r="3.6" fill="url(#marigoldYellow)"/>
+            <circle cx="120" cy="196" r="3.8" fill="url(#marigoldOrange)"/>
+            <!-- Lotus Bud / Bell -->
+            <path d="M 120 200 L 124 208 L 116 208 Z" fill="url(#lotusPink)"/>
+            <circle cx="120" cy="211" r="3" fill="url(#richGold)"/>
+            <line x1="120" y1="213" x2="120" y2="216" stroke="#7a4e04" stroke-width="1.5"/>
+          </g>
+
+          <!-- Tassel 3 (Grand Center Hanging) -->
+          <g>
+            <line x1="160" y1="178" x2="160" y2="204" stroke="#e5b869" stroke-width="2"/>
+            <circle cx="160" cy="185" r="3" fill="#ffffff"/>
+            <circle cx="160" cy="192" r="4.2" fill="url(#marigoldOrange)"/>
+            <circle cx="160" cy="200" r="3.8" fill="url(#marigoldYellow)"/>
+            <!-- Royal Golden Bell (Ghungroo) -->
+            <path d="M 155 204 Q 160 200 165 204 L 167 210 Q 160 213 153 210 Z" fill="url(#richGold)"/>
+            <circle cx="160" cy="214" r="3" fill="#fde08a"/>
+            <line x1="160" y1="216" x2="160" y2="219" stroke="#7a4e04" stroke-width="1.5"/>
+          </g>
+
+          <!-- Tassel 4 (Mid Right) -->
+          <g>
+            <line x1="200" y1="176" x2="200" y2="198" stroke="#e5b869" stroke-width="1.8"/>
+            <circle cx="200" cy="182" r="2.6" fill="#fff"/>
+            <circle cx="200" cy="189" r="3.6" fill="url(#marigoldYellow)"/>
+            <circle cx="200" cy="196" r="3.8" fill="url(#marigoldOrange)"/>
+            <!-- Lotus Bud / Bell -->
+            <path d="M 200 200 L 204 208 L 196 208 Z" fill="url(#lotusPink)"/>
+            <circle cx="200" cy="211" r="3" fill="url(#richGold)"/>
+            <line x1="200" y1="213" x2="200" y2="216" stroke="#7a4e04" stroke-width="1.5"/>
+          </g>
+
+          <!-- Tassel 5 (Far Right) -->
+          <g>
+            <line x1="238" y1="172" x2="238" y2="188" stroke="#e5b869" stroke-width="1.5"/>
+            <circle cx="238" cy="178" r="2.5" fill="#fff"/>
+            <circle cx="238" cy="184" r="3.2" fill="url(#marigoldOrange)"/>
+            <path d="M 238 188 L 241 195 L 235 195 Z" fill="url(#lotusPink)"/>
+            <!-- Ghungroo -->
+            <circle cx="238" cy="198" r="2.5" fill="url(#richGold)"/>
+          </g>
+        </svg>
         </div>
+
+        <!-- Interactive Touch Hint / Status Pill -->
+        <button id="rockHintBtn" onclick="triggerCradleRock()" class="touch-hint-pill mt-1 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 hover:bg-black/60 border border-[#dfb052]/50 text-[#ffd978] text-[0.7rem] sm:text-xs font-medium tracking-wide transition-all shadow-sm">
+          <span>✨</span>
+          <span class="lang-en font-cinzel">Touch the cradle to rock</span>
+          <span class="lang-kn font-kannada-sans">ತೊಟ್ಟಿಲನ್ನು ತೂಗಲು ಮುಟ್ಟಿ</span>
+          <span>✨</span>
+        </button>
       </div>
 
       <!-- 5. Parents (Thande - Thayi) & Grandparents (Thande/Thayi Kadeya Ajji-Thatha) -->
-      <div class="w-full bg-black/25 border border-[#dfb052]/40 rounded-xl p-3.5 sm:p-4 mb-4 shadow-inner text-center">
+      <div class="w-full bg-black/30 border border-[#dfb052]/45 rounded-xl p-3.5 sm:p-4 mb-4 shadow-inner text-center relative overflow-hidden">
+        <!-- Delicate corner floral accents in box -->
+        <span class="absolute top-1 left-2 text-[#dfb052]/40 text-xs">❀</span>
+        <span class="absolute top-1 right-2 text-[#dfb052]/40 text-xs">❀</span>
+        <span class="absolute bottom-1 left-2 text-[#dfb052]/40 text-xs">❀</span>
+        <span class="absolute bottom-1 right-2 text-[#dfb052]/40 text-xs">❀</span>
+
         <!-- English View -->
         <div class="lang-en space-y-2.5">
           <div>
@@ -270,7 +705,7 @@
           <div class="border-t border-[#dfb052]/30 pt-2.5 space-y-1.5 text-xs sm:text-[0.86rem] font-playfair text-[#ebd3b7]">
             <div>
               <span class="font-semibold text-[#f5deb3]">Paternal Grandparents:</span><br class="sm:hidden">
-              Sri Anand Gowdru &amp; Smt. Gangamma
+              Smt. Gangamma &amp; Sri Anand Gowdru
             </div>
             <div>
               <span class="font-semibold text-[#f5deb3]">Maternal Grandparents:</span><br class="sm:hidden">
@@ -293,7 +728,7 @@
           <div class="border-t border-[#dfb052]/30 pt-2 space-y-1 text-xs sm:text-[0.88rem] font-kannada-sans text-[#ebd3b7]">
             <div>
               <span class="font-semibold text-[#f5deb3]">ತಂದೆ ಕಡೆಯ ಅಜ್ಜಿ - ತಾತ:</span><br class="sm:hidden">
-              ಶ್ರೀ ಆನಂದ್ ಗೌಡ್ರು ಮತ್ತು ಶ್ರೀಮತಿ ಗಂಗಮ್ಮ
+              ಶ್ರೀಮತಿ ಗಂಗಮ್ಮ ಮತ್ತು ಶ್ರೀ ಆನಂದ್ ಗೌಡ್ರು
             </div>
             <div>
               <span class="font-semibold text-[#f5deb3]">ತಾಯಿ ಕಡೆಯ ಅಜ್ಜಿ - ತಾತ:</span><br class="sm:hidden">
@@ -303,8 +738,8 @@
         </div>
       </div>
 
-      <!-- 6. Auspicious Date Banner -->
-      <div class="w-full bg-[#dfb052]/15 border border-[#dfb052]/50 rounded-lg py-2 px-3 mb-3">
+      <!-- 6. Auspicious Date Banner with Floral Motif -->
+      <div class="w-full bg-[#dfb052]/15 border border-[#dfb052]/50 rounded-lg py-2 px-3 mb-3 relative overflow-hidden">
         <div class="lang-en font-cinzel text-[0.68rem] tracking-[0.25em] text-[#e5b869] font-bold uppercase mb-0.5">
           AUSPICIOUS DATE
         </div>
@@ -312,18 +747,22 @@
           ಶುಭ ದಿನಾಂಕ
         </div>
 
-        <div class="lang-en font-montserrat font-semibold text-sm sm:text-base text-[#fff5e6]">
-          Sunday, 15th Nov 2026
+        <div class="lang-en font-montserrat font-semibold text-sm sm:text-base text-[#fff5e6] flex items-center justify-center gap-2">
+          <span class="text-xs text-amber-400">✦</span>
+          <span>Sunday, 15th Nov 2026</span>
+          <span class="text-xs text-amber-400">✦</span>
         </div>
-        <div class="lang-kn font-kannada-serif font-semibold text-sm sm:text-base text-[#fff5e6]">
-          ಭಾನುವಾರ, 15 ನವೆಂಬರ್ 2026
+        <div class="lang-kn font-kannada-serif font-semibold text-sm sm:text-base text-[#fff5e6] flex items-center justify-center gap-2">
+          <span class="text-xs text-amber-400">✦</span>
+          <span>ಭಾನುವಾರ, 15 ನವೆಂಬರ್ 2026</span>
+          <span class="text-xs text-amber-400">✦</span>
         </div>
       </div>
 
       <!-- 7. Timings Grid -->
       <div class="w-full grid grid-cols-2 gap-2 mb-2.5">
         <!-- Sathyanarayana Swamy Vratha (Morning 5:00 to 8:30) -->
-        <div class="bg-black/20 border border-[#dfb052]/25 rounded-lg p-2.5 flex flex-col justify-center">
+        <div class="bg-black/25 border border-[#dfb052]/30 rounded-lg p-2.5 flex flex-col justify-center">
           <div class="lang-en font-cinzel text-[0.65rem] sm:text-[0.7rem] tracking-wider text-[#dfba7c] font-bold mb-1">
             SATHYANARAYANA VRATHA
           </div>
@@ -340,7 +779,7 @@
         </div>
 
         <!-- Naming Ceremony (10:30 AM onwards) -->
-        <div class="bg-black/20 border border-[#dfb052]/25 rounded-lg p-2.5 flex flex-col justify-center">
+        <div class="bg-black/25 border border-[#dfb052]/30 rounded-lg p-2.5 flex flex-col justify-center">
           <div class="lang-en font-cinzel text-[0.65rem] sm:text-[0.7rem] tracking-wider text-[#dfba7c] font-bold mb-1">
             NAMING CEREMONY
           </div>
@@ -358,16 +797,21 @@
       </div>
 
       <!-- Lunch Time -->
-      <div class="mb-3.5 bg-black/15 border border-[#dfb052]/20 rounded-lg py-1.5 px-3 w-full">
+      <div class="mb-3.5 bg-black/20 border border-[#dfb052]/25 rounded-lg py-1.5 px-3 w-full">
         <div class="lang-en font-montserrat font-medium text-xs sm:text-sm text-[#faecd9]">
           🍽️ Lunch: 12:30 PM Onwards
         </div>
         <div class="lang-kn font-kannada-sans font-medium text-xs sm:text-sm text-[#faecd9]">
-          🍽️ ಮಧ್ಯಾಹ್ನದ ಊಟ: 12:30 ರಿಂದ
+          🍽️ ಮಧ್ಯಾಹ್ನದ ಊಟ: 11:30 ರಿಂದ
         </div>
       </div>
 
-      <div class="w-3/4 h-[1px] bg-gradient-to-r from-transparent via-[#dfb052]/40 to-transparent mx-auto mb-3.5"></div>
+      <!-- Ornamental Paisley / Lotus Divider -->
+      <div class="flex items-center justify-center gap-2 mb-3.5 w-full">
+        <div class="w-16 sm:w-24 h-[1px] bg-gradient-to-r from-transparent to-[#dfb052]/60"></div>
+        <span class="text-[#dfb052] text-xs">🪷</span>
+        <div class="w-16 sm:w-24 h-[1px] bg-gradient-to-l from-transparent to-[#dfb052]/60"></div>
+      </div>
 
       <!-- 8. Venue -->
       <div class="mb-3.5">
@@ -378,23 +822,25 @@
           ಸ್ಥಳ
         </div>
 
-        <p class="lang-en font-montserrat text-xs sm:text-sm leading-relaxed text-[#ffeed8] max-w-[360px] mx-auto">
-          Sri Rama Mandira Sabha Bhavana,<br>
-          Near Swamy Mutt, 4th Block, Jayanagar, Bengaluru
+        <p class="lang-en font-montserrat text-xs sm:text-sm leading-relaxed text-[#ffeed8] max-w-[380px] mx-auto">
+          Ranganatha Nilaya, Sai Garden Layout,<br>
+          Near Sharada Ashrama, Behind Naganayakana Hatti,<br>
+          Hiriyur - 577598
         </p>
-        <p class="lang-kn font-kannada-sans text-xs sm:text-sm leading-relaxed text-[#ffeed8] max-w-[360px] mx-auto">
-          ಶ್ರೀ ರಾಮ ಮಂದಿರ ಸಭಾ ಭವನ,<br>
-          ಸ್ವಾಮಿ ಮಠದ ಹತ್ತಿರ, 4ನೇ ಬ್ಲಾಕ್, ಜಯನಗರ, ಬೆಂಗಳೂರು
+        <p class="lang-kn font-kannada-sans text-xs sm:text-sm leading-relaxed text-[#ffeed8] max-w-[380px] mx-auto">
+          ರಂಗನಾಥ ನಿಲಯ, ಸಾಯಿ ಗಾರ್ಡನ್ ಲೇಔಟ್,<br>
+          ಶಾರದಾ ಆಶ್ರಮದ ಹತ್ತಿರ, ನಾಗನಾಯಕನ ಹಟ್ಟಿ ಹಿಂಭಾಗ,<br>
+          ಹಿರಿಯೂರು - 577598
         </p>
       </div>
 
       <!-- 9. Footer Ceremonial Text -->
-      <div class="pt-2.5 border-t border-[#dfb052]/30 w-full text-center">
+      <div class="pt-2.5 border-t border-[#dfb052]/35 w-full text-center">
         <div class="lang-en font-montserrat text-[0.72rem] tracking-wider text-[#dfba7c]">
-          WARMLY AWAITED BY: FRIENDS &amp; FAMILY
+          WARMLY AWAITED BY: FRIENDS &amp; FAMILY | CONTACT: +91 8095117035
         </div>
         <div class="lang-kn font-kannada-sans text-[0.74rem] tracking-wider text-[#dfba7c]">
-          ನಿಮ್ಮ ಆಗಮನವನ್ನು ಹಾರೈಸುವ: ಬಂಧು-ಮಿತ್ರರು ಹಾಗೂ ಕುಟುಂಬದವರು
+          ನಿಮ್ಮ ಆಗಮನವನ್ನು ಹಾರೈಸುವ: ಬಂಧು-ಮಿತ್ರರು ಹಾಗೂ ಕುಟುಂಬದವರು | ಸಂಪರ್ಕ: +91 8095117035
         </div>
       </div>
 
@@ -431,7 +877,7 @@
   </footer>
 
   <script>
-    // Language Switcher Logic
+    // Language Switcher Logic (English & Kannada)
     let currentMode = 'en';
 
     function setLang(mode) {
@@ -440,14 +886,13 @@
       const knEls = document.querySelectorAll('.lang-kn');
       const btnEn = document.getElementById('btn-en');
       const btnKn = document.getElementById('btn-kn');
-      const btnBoth = document.getElementById('btn-both');
 
       // Reset button styles
-      [btnEn, btnKn, btnBoth].forEach(btn => {
-        btn.className = 'lang-tab px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all text-amber-200 hover:text-white';
+      [btnEn, btnKn].forEach(btn => {
+        btn.className = 'lang-tab px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider transition-all text-amber-200 hover:text-white';
       });
 
-      const activeClasses = 'lang-tab px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all bg-amber-500 text-stone-950 shadow';
+      const activeClasses = 'lang-tab px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider transition-all bg-amber-500 text-stone-950 shadow';
 
       if (mode === 'en') {
         enEls.forEach(el => el.style.display = 'block');
@@ -457,75 +902,93 @@
         enEls.forEach(el => el.style.display = 'none');
         knEls.forEach(el => el.style.display = 'block');
         btnKn.className = activeClasses;
-      } else if (mode === 'both') {
-        enEls.forEach(el => el.style.display = 'block');
-        knEls.forEach(el => el.style.display = 'block');
-        btnBoth.className = activeClasses;
       }
     }
 
     // Default to English view on load
     setLang('en');
 
-    // Clipboard copy function
-    function copyDetails() {
-      const textToCopy = 
-`|| SHRI GANESHAY NAMAH ||
-|| ಶ್ರೀ ಗಣೇಶಾಯ ನಮಃ ||
+    // --- Interactive Cradle Motion & Auspicious Chime Sound ---
+    const cradle = document.getElementById('cradleContainer');
+    const hintBtn = document.getElementById('rockHintBtn');
+    let isRocking = false;
+    let audioCtx = null;
 
-NAMAKARANA & SATHYANARAYANA SWAMY VRATHA INVITATION
-(ನಾಮಕರಣ ಮತ್ತು ಶ್ರೀ ಸತ್ಯನಾರಾಯಣ ಸ್ವಾಮಿ ವ್ರತದ ಆಹ್ವಾನ ಪತ್ರಿಕೆ)
-
-With the divine blessings of God & Our Elders, we cordially invite you to join us in celebrating the auspicious ceremony of our precious and lovely daughter.
-(ದೇವರ ಮತ್ತು ಹಿರಿಯರ ಆಶೀರ್ವಾದದೊಂದಿಗೆ, ನಮ್ಮ ಪ್ರೀತಿಯ ಮತ್ತು ಮುದ್ದಾದ ಮಗಳ ಈ ಶುಭ ಸಮಾರಂಭಕ್ಕೆ ತಾವುಗಳು ಸಕುಟುಂಬ ಸಮೇತರಾಗಿ ಆಗಮಿಸಿ, ಶುಭ ಹಾರೈಸಬೇಕಾಗಿ ಕೋರುತ್ತೇವೆ.)
-
-Parents / ತಂದೆ - ತಾಯಿ:
-Manjesh Gowda & Shalini (ಮಂಜೇಶ್ ಗೌಡ ಮತ್ತು ಶಾಲಿನಿ)
-
-Grandparents:
-• Paternal Grandparents (ತಂದೆ ಕಡೆಯ ಅಜ್ಜಿ - ತಾತ):
-  Sri Anand Gowdru & Smt. Gangamma (ಶ್ರೀ ಆನಂದ್ ಗೌಡ್ರು ಮತ್ತು ಶ್ರೀಮತಿ ಗಂಗಮ್ಮ)
-• Maternal Grandparents (ತಾಯಿ ಕಡೆಯ ಅಜ್ಜಿ - ತಾತ):
-  Late Smt. Anasuya & Sri Umapathi (ದಿವಂಗತ ಶ್ರೀಮತಿ ಅನಸೂಯ ಮತ್ತು ಶ್ರೀ ಉಮಾಪತಿ)
-
-Auspicious Date:
-Sunday, 15th Nov 2026 (ಭಾನುವಾರ, 15 ನವೆಂಬರ್ 2026)
-
-Timings / ಸಮಯ:
-• Sathyanarayana Swamy Vratha (ಶ್ರೀ ಸತ್ಯನಾರಾಯಣ ವ್ರತ): 5:00 AM – 8:30 AM (Morning / ಬೆಳಿಗ್ಗೆ 5:00 ರಿಂದ 8:30 ರವರೆಗೆ)
-• Naming Ceremony (ನಾಮಕರಣ): 10:30 AM onwards (ಬೆಳಿಗ್ಗೆ 10:30 ರಿಂದ)
-• Lunch (ಮಧ್ಯಾಹ್ನದ ಊಟ): 12:30 PM Onwards (ಮಧ್ಯಾಹ್ನ 12:30 ರಿಂದ)
-
-Venue / ಸ್ಥಳ:
-Sri Rama Mandira Sabha Bhavana, Near Swamy Mutt, 4th Block, Jayanagar, Bengaluru
-(ಶ್ರೀ ರಾಮ ಮಂದಿರ ಸಭಾ ಭವನ, ಸ್ವಾಮಿ ಮಠದ ಹತ್ತಿರ, 4ನೇ ಬ್ಲಾಕ್, ಜಯನಗರ, ಬೆಂಗಳೂರು)`;
-
-      const tempTextArea = document.createElement("textarea");
-      tempTextArea.value = textToCopy;
-      tempTextArea.style.position = "fixed";
-      tempTextArea.style.left = "-999999px";
-      tempTextArea.style.top = "-999999px";
-      document.body.appendChild(tempTextArea);
-      tempTextArea.focus();
-      tempTextArea.select();
-
+    // Web Audio API synthesized soft ghungroo/temple bell chime (no external audio required)
+    function playCradleBellChime() {
       try {
-        document.execCommand('copy');
-        showToast("Invitation details copied to clipboard!");
-      } catch (err) {
-        showToast("Press Ctrl+C to copy");
-      } finally {
-        document.body.removeChild(tempTextArea);
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const frequencies = [880, 1320, 1760]; // Pentatonic soft chime frequencies
+        frequencies.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.08);
+
+          // Bell envelope: sharp initial ring, gentle musical decay
+          const startTime = audioCtx.currentTime + idx * 0.08;
+          gain.gain.setValueAtTime(0, startTime);
+          gain.gain.linearRampToValueAtTime(0.045, startTime + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.95);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(startTime);
+          osc.stop(startTime + 1.0);
+        });
+      } catch (e) {
+        console.warn('Audio chime skipped:', e);
       }
     }
 
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.style.opacity = '1';
+    // Rocking Trigger function
+    function triggerCradleRock() {
+      if (isRocking) return;
+      isRocking = true;
+
+      // Play soft chime sound
+      playCradleBellChime();
+
+      // Temporarily remove ambient sway and activate realistic rocking animation
+      cradle.classList.remove('cradle-ambient');
+      cradle.classList.remove('cradle-rocking');
+      void cradle.offsetWidth; // Force CSS reflow
+      cradle.classList.add('cradle-rocking');
+
+      // Add gentle feedback to hint button
+      if (hintBtn) {
+        hintBtn.style.opacity = '0.7';
+      }
+
+      // Resume ambient gentle motion after the main rocking sequence finishes
       setTimeout(() => {
-        toast.style.opacity = '0';
-      }, 2600);
+        cradle.classList.remove('cradle-rocking');
+        cradle.classList.add('cradle-ambient');
+        isRocking = false;
+        if (hintBtn) hintBtn.style.opacity = '1';
+      }, 3600);
+    }
+
+    // Touch and Mouse listeners on cradle
+    if (cradle) {
+      cradle.addEventListener('click', triggerCradleRock);
+
+      let touchStartX = 0;
+      cradle.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) {
+          touchStartX = e.touches[0].clientX;
+        }
+      }, { passive: true });
+
+      cradle.addEventListener('touchend', (e) => {
+        triggerCradleRock();
+      }, { passive: true });
     }
   </script>
 </body>
